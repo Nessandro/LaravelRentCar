@@ -25,6 +25,6 @@ class Car extends Model
      */
     public function reservations()
     {
-        $this->hasMany(Reservation::class, 'car_id','id');
+        return $this->hasMany(Reservation::class, 'car_id','id');
     }
 }

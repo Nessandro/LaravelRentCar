@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,7 +28,7 @@ class Reservation extends Model
      */
     public function user()
     {
-        $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -35,6 +36,15 @@ class Reservation extends Model
      */
     public function car()
     {
-        $this->belongsTo(Car::class, 'car_id');
+        return $this->belongsTo(Car::class, 'car_id');
+    }
+
+    /**
+     * Cancel the reservation
+     * @return bool
+     */
+    public function cancel()
+    {
+        return $this->update(['cancelled_at' => Carbon::now()]);
     }
 }
