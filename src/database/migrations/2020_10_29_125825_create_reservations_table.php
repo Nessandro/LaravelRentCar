@@ -21,9 +21,10 @@ class CreateReservationsTable extends Migration
                 ->onDelete('cascade');
 
             $table->foreignId('car_id')
+                ->nullable()
                 ->references('id')
                 ->on('cars')
-                ->onDelete('cascade');
+                ->onDelete('set null');
 
             $table->timestamp('start_date')->nullable();
             $table->timestamp('finish_date')->nullable();

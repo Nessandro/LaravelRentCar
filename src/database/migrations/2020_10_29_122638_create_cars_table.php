@@ -15,11 +15,12 @@ class CreateCarsTable extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string('brand');
-            $table->string('model');
-            $table->string('image');
+            $table->string('brand', 150);
+            $table->string('model', 150);
+            $table->string('image')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**
@@ -32,3 +33,4 @@ class CreateCarsTable extends Migration
         Schema::dropIfExists('cars');
     }
 }
+

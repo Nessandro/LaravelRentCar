@@ -19,4 +19,12 @@ class Car extends Model
         'model',
         'image',
     ];
+
+    /**
+     * car reservations
+     */
+    public function reservations()
+    {
+        $this->hasMany(Reservation::class, 'car_id','id');
+    }
 }

@@ -21,4 +21,20 @@ class Reservation extends Model
         'finish_date',
         'cancelled_at',
     ];
+
+    /**
+     * user relation
+     */
+    public function user()
+    {
+        $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * car relation
+     */
+    public function car()
+    {
+        $this->belongsTo(Car::class, 'car_id');
+    }
 }
