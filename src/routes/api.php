@@ -25,11 +25,13 @@ Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])-
  * reservations
  */
 
-Route::group(['middleware' => 'auth:sanctum'], function() {
-    Route::put('reservation/cancel/{id}', [\App\Http\Controllers\ReservationController::class, 'cancel']);
+Route::put('reservation/cancel/{id}', [\App\Http\Controllers\ReservationController::class, 'cancel']);
 
-    Route::resource('reservation', \App\Http\Controllers\ReservationController::class)
-        ->except(['create', 'edit']);
+Route::resource('reservation', \App\Http\Controllers\ReservationController::class)
+    ->except(['create', 'edit']);
+
+Route::group(['middleware' => 'auth:sanctum'], function() {
+
 
 });
 

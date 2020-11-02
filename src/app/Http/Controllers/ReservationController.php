@@ -16,7 +16,7 @@ class ReservationController extends Controller
     {
         $reservations = Reservation::with('user', 'car')->get()->toArray();
 
-        return response()->json(['data' => $reservations]);
+        return response()->json(['reservations' => $reservations]);
     }
 
     /**
@@ -31,7 +31,7 @@ class ReservationController extends Controller
         $reservation = new Reservation($input);
         $reservation->save();
 
-        return response()->json(['data' => $reservation]);
+        return response()->json(['reservation' => $reservation]);
     }
 
     /**
@@ -43,7 +43,7 @@ class ReservationController extends Controller
     public function show($id)
     {
         $reservation = Reservation::with('user', 'car')->where('id', $id)->get()->toArray();
-        return response()->json(['data' => $reservation]);
+        return response()->json(['reservation' => $reservation]);
     }
 
     /**
@@ -58,7 +58,7 @@ class ReservationController extends Controller
         $input = $request->except(['user_id']);
         $reservation = Reservation::where('id', $id)->update($input);
 
-        return response()->json(['data' => $reservation]);
+        return response()->json(['reservation' => $reservation]);
     }
 
     /**
@@ -74,7 +74,7 @@ class ReservationController extends Controller
         }
         $reservation->cancel();
 
-        return response()->json(['data' => $reservation]);
+        return response()->json(['reservation' => $reservation]);
     }
 
     /**
@@ -91,7 +91,7 @@ class ReservationController extends Controller
             return response()->json(['message' => "The reservation with id {$id} not found."], 404);
         }
         $reservation->delete();
-        return response()->json(['data' => ['deleted' => true]]);
+        return response()->json(['reservation' => ['deleted' => true]]);
     }
 }
 

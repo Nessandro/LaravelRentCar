@@ -1,16 +1,32 @@
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{asset('/css/app.css')}}">
+    </head>
     <body>
-
         <div id="app">
-            <router-view></router-view>
+            <div class="container max-auto">
 
-            <hr>
-            <router-link to="/">Home</router-link>
-            <router-link to="/reservations">Reservations</router-link>
+                <header class="py-6 mb-8">
+                    <h1>Rent Car Application</h1>
+                </header>
+                <main class="flex">
+                    <aside class="w-1/5">
+                        <ul class="list-reset">
+                            <li class="pb-4"><router-link  to="/" exact>Home</router-link></li>
+                            <li class="pb-4"><router-link to="/reservations">Reservations</router-link></li>
+                        </ul>
+                    </aside>
 
+                    <div class="primary primary flex-1">
+                        <router-view></router-view>
+                    </div>
+
+                </main>
+
+            </div>
         </div>
 
-    <script src="/js/app.js"></script>
+    <script src="{{asset('/js/app.js')}}"></script>
+
     </body>
 </html>
