@@ -1,6 +1,13 @@
 <template>
     <div>
 
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" v-if="error">
+            <strong class="font-bold">Error:</strong>
+            <span class="block sm:inline" v-html="error"></span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            </span>
+        </div>
+
         <div class="w-full h-full fixed block top-0 left-0 bg-white opacity-75 z-50" v-if="isLoading"></div>
         <h1 class="group flex whitespace-pre-wrap">Reservations</h1>
         <div class="md:flex pb-6" v-for="reservation in reservations">
@@ -11,22 +18,17 @@
             <div class="mt-4 md:mt-0 md:ml-6">
                 <div class="uppercase tracking-wide text-sm text-indigo-600 font-bold" v-html="reservation.car.brand"></div>
                 <a href="#" class="block mt-1 text-lg leading-tight font-semibold text-gray-900 hover:underline" v-html="reservation.car.model"></a>
-
-                <button @click="cancel(reservation.id)" v-if="reservation.cancelled_at === null" class="mt-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" >
+                <button @click="cancel(reservation.id)" v-if="reservation.cancelled_at === null" class="mt-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                     Cancel
                 </button>
-
             </div>
             <div>
                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-300 text-red-800 ml-1" v-if="reservation.cancelled_at !== null">Cancelled</span>
                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-300 text-yellow-800 ml-1" v-else>Awaiting</span>
             </div>
-
         </div>
     </div>
-
 </template>
-
 
 <script>
     export default{
@@ -35,6 +37,7 @@
             return {
                 isLoading: true,
                 reservations: [],
+                error: null,
             }
         },
         mounted(){
@@ -50,12 +53,14 @@
                         self.reservations = response.data.reservations;
                     }
                 }).catch(err => {
-                    console.log(err.response.data);
+                    self.isLoading = false;
+                    this.error = err.response.data.message;
                 })
             },
             cancel(id){
                 const self = this;
-                axios.put(`api/reservation/cancel/${id}` ).then(response => {
+                axios.put(`api/reservation/cancel/${id}`).then(response => {
+                    self.isLoading = true;
                     self.load();
                 }).catch(err => console.log(err));
             }

@@ -1,15 +1,18 @@
 import './bootstrap';
 import Vue from 'vue';
+import Vuex from 'vuex';
 import VueRouter from 'vue-router';
-import routes from './routes';
+
+import router from './router';
 
 
+Vue.use(Vuex);
 Vue.use(VueRouter);
 
 let app = new Vue({
     el: '#app',
 
-    router: new VueRouter(routes)
+    router: router
 });
 
 
