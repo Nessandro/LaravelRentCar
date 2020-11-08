@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -14,7 +15,10 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::with('user', 'car')->get()->toArray();
+        $reservations = Reservation::with('user', 'car')
+            ->where('user_id', Auth::id())
+            ->get()
+            ->toArray();
 
         return response()->json(['reservations' => $reservations]);
     }
@@ -42,7 +46,11 @@ class ReservationController extends Controller
      */
     public function show($id)
     {
-        $reservation = Reservation::with('user', 'car')->where('id', $id)->get()->toArray();
+        $reservation = Reservation::with('user', 'car')
+            ->where('id', $id)
+            ->get()
+            ->toArray();
+
         return response()->json(['reservation' => $reservation]);
     }
 
