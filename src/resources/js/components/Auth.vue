@@ -42,7 +42,6 @@
                     email:      null,
                     password:   null,
                 },
-
             }
         },
         computed:{
@@ -56,11 +55,6 @@
                   return !!this.user ? this.user.token : null;
               }
             }
-        },
-        mounted(){
-            // this.authToken = localStorage.getItem('user');
-            //todo: check if token is still valid
-
         },
         methods:{
             handleLogin(){

@@ -1,8 +1,8 @@
 import './bootstrap';
 import Vue from 'vue';
-// import Vuex from 'vuex';
-
 import VueRouter from 'vue-router';
+import App from './components/App';
+
 
 import store from './store';
 import router from './router';
@@ -10,8 +10,7 @@ import router from './router';
 
 Vue.use(VueRouter);
 
-let app = new Vue({
-    el: '#app',
+new Vue({
     store,
     router,
     created(){
@@ -47,7 +46,8 @@ let app = new Vue({
                 }
             );
         }
-    }
-});
+    },
+    render: h => h(App)
+}).$mount('#app');
 
 
