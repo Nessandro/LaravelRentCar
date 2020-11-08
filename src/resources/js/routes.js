@@ -2,6 +2,7 @@ import Home from './components/Home'
 import Cars from './components/Cars'
 import Reservations from './components/Reservations'
 import CreateReservation from './components/CreateReservation'
+import UpdateReservation from './components/UpdateReservation'
 import Auth from './components/Auth'
 import NotFound from './components/NotFound'
 
@@ -36,6 +37,14 @@ export default {
             path: '/reservations/create',
             component: CreateReservation,
             name: 'createReservation',
+            meta:{
+                auth: true
+            }
+        },
+        {
+            path: '/reservations/update/:id',
+            component: UpdateReservation,
+            name: 'updateReservation',
             meta:{
                 auth: true
             }
