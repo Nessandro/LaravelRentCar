@@ -21,18 +21,34 @@ use Illuminate\Support\Facades\Route;
 Route::any('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
-/**
- * reservations
- */
+
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
-    Route::put('reservation/cancel/{id}', [\App\Http\Controllers\ReservationController::class, 'cancel']);
 
+    /**
+     * reservations
+     */
+    Route::put('reservation/cancel/{id}', [\App\Http\Controllers\ReservationController::class, 'cancel']);
     Route::resource('reservation', \App\Http\Controllers\ReservationController::class)
         ->except(['create', 'edit']);
 
+    /**
+     * cars
+     */
+//    Route::resource('cars', \App\Http\Controllers\CarController::class)
+//        ->except(['create', 'edit', 'index']);
 });
+
+/**
+ * cars
+ */
+
+Route::get('/cars', [\App\Http\Controllers\CarController::class, 'index']);
+
+
+
+
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();

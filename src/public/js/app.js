@@ -1999,7 +1999,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2064,11 +2063,137 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      isLoading: true,
       cars: []
     };
+  },
+  mounted: function mounted() {
+    this.load();
+  },
+  methods: {
+    load: function load() {
+      var _this = this;
+
+      this.isLoading = true;
+      axios.get('/api/cars').then(function (response) {
+        _this.isLoading = false;
+
+        if (response.data.cars) {
+          _this.cars = response.data.cars;
+        }
+      })["catch"](function (err) {
+        _this.isLoading = false;
+        console.log(err.response.data.message);
+      });
+    }
   }
 });
 
@@ -2091,9 +2216,82 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  date: function date() {
-    return {};
+  data: function data() {
+    return {
+      cars: []
+    };
+  },
+  mounted: function mounted() {
+    this.load();
+  },
+  methods: {
+    load: function load() {
+      var _this = this;
+
+      this.isLoading = true;
+      axios.get('/api/cars').then(function (response) {
+        _this.isLoading = false;
+
+        if (response.data.cars) {
+          _this.cars = response.data.cars;
+        }
+      })["catch"](function (err) {
+        _this.isLoading = false;
+        console.log(err.response.data.message);
+      });
+    }
   }
 });
 
@@ -2148,7 +2346,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -20121,15 +20318,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h1", { staticClass: "font-normal" }, [_vm._v("Auth")]),
-    _vm._v(" "),
     !_vm.token
       ? _c("div", [
           _c(
             "div",
             {
               staticClass:
-                "bg-gray-200 rounded py-16 px-12 m-16 flex flex-col items-center justify-center"
+                "rounded py-16 px-12 m-16 flex flex-col items-center justify-center"
             },
             [
               _c("img", {
@@ -20220,7 +20415,7 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _vm._m(0),
+                  _c("div", { staticClass: "my-4 flex items-center" }),
                   _vm._v(" "),
                   _c(
                     "button",
@@ -20262,21 +20457,7 @@ var render = function() {
         ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "my-4 flex items-center" }, [
-      _c("input", {
-        staticClass: "h-4 w-4 mr-2",
-        attrs: { type: "checkbox", id: "userRemember" }
-      }),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "userRemember" } }, [_vm._v("Remember me")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -20298,16 +20479,374 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass:
+          "border border-gray-300 p-6 grid grid-cols-1 gap-6 bg-white shadow-lg rounded-lg"
+      },
+      [
+        _c("div", { staticClass: "flex flex-col md:flex-row" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "grid grid-cols-1 md:grid-cols-2 gap-4" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "grid grid-cols-2 gap-2 border border-gray-200 p-2 rounded"
+            },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "flex border rounded bg-gray-300 items-center p-2 "
+                },
+                [
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "fill-current text-gray-800 mr-2 w-5",
+                      attrs: {
+                        xmlns: "http://www.w3.org/2000/svg",
+                        viewBox: "0 0 24 24",
+                        width: "24",
+                        height: "24"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        staticClass: "heroicon-ui",
+                        attrs: {
+                          d:
+                            "M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass:
+                      "bg-gray-300 max-w-full focus:outline-none text-gray-700",
+                    attrs: { type: "text", placeholder: "Enter text here..." }
+                  })
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "grid grid-cols-2 gap-2 border border-gray-200 p-2 rounded"
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "flex border rounded bg-gray-300 items-center p-2 "
+                },
+                [
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "fill-current text-gray-800 mr-2 w-5",
+                      attrs: {
+                        xmlns: "http://www.w3.org/2000/svg",
+                        viewBox: "0 0 24 24",
+                        width: "24",
+                        height: "24"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        staticClass: "heroicon-ui",
+                        attrs: {
+                          d:
+                            "M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM5.68 7.1A7.96 7.96 0 0 0 4.06 11H5a1 1 0 0 1 0 2h-.94a7.95 7.95 0 0 0 1.32 3.5A9.96 9.96 0 0 1 11 14.05V9a1 1 0 0 1 2 0v5.05a9.96 9.96 0 0 1 5.62 2.45 7.95 7.95 0 0 0 1.32-3.5H19a1 1 0 0 1 0-2h.94a7.96 7.96 0 0 0-1.62-3.9l-.66.66a1 1 0 1 1-1.42-1.42l.67-.66A7.96 7.96 0 0 0 13 4.06V5a1 1 0 0 1-2 0v-.94c-1.46.18-2.8.76-3.9 1.62l.66.66a1 1 0 0 1-1.42 1.42l-.66-.67zM6.71 18a7.97 7.97 0 0 0 10.58 0 7.97 7.97 0 0 0-10.58 0z"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass:
+                      "bg-gray-300 max-w-full focus:outline-none text-gray-700",
+                    attrs: { type: "text", placeholder: "Enter text here..." }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "flex border rounded bg-gray-300 items-center p-2 "
+                },
+                [
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "fill-current text-gray-800 mr-2 w-5",
+                      attrs: {
+                        xmlns: "http://www.w3.org/2000/svg",
+                        viewBox: "0 0 24 24",
+                        width: "24",
+                        height: "24"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        staticClass: "heroicon-ui",
+                        attrs: {
+                          d:
+                            "M14 5.62l-4 2v10.76l4-2V5.62zm2 0v10.76l4 2V7.62l-4-2zm-8 2l-4-2v10.76l4 2V7.62zm7 10.5L9.45 20.9a1 1 0 0 1-.9 0l-6-3A1 1 0 0 1 2 17V4a1 1 0 0 1 1.45-.9L9 5.89l5.55-2.77a1 1 0 0 1 .9 0l6 3A1 1 0 0 1 22 7v13a1 1 0 0 1-1.45.89L15 18.12z"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass:
+                      "bg-gray-300 max-w-full focus:outline-none text-gray-700",
+                    attrs: { type: "text", placeholder: "Enter text here..." }
+                  })
+                ]
+              )
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex justify-center" }, [
+          _c(
+            "button",
+            {
+              staticClass: "p-2 border w-1/4 rounded-md bg-gray-800 text-white",
+              on: { click: _vm.load }
+            },
+            [_vm._v("Search")]
+          )
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "flex flex-col mt-8" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200"
+            },
+            [
+              _c("table", { staticClass: "min-w-full" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  { staticClass: "bg-white" },
+                  [
+                    _vm.isLoading
+                      ? _c("tr", [_vm._m(2)])
+                      : _vm._l(_vm.cars, function(car) {
+                          return _c("tr", [
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "px-6 py-4 whitespace-no-wrap border-b border-gray-200"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "flex items-center" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "flex-shrink-0 h-10 w-10"
+                                      },
+                                      [
+                                        car.image
+                                          ? _c("img", {
+                                              staticClass:
+                                                "h-10 w-10 rounded-full",
+                                              attrs: { src: car.image, alt: "" }
+                                            })
+                                          : _c("img", {
+                                              staticClass:
+                                                "h-10 w-10 rounded-full",
+                                              attrs: {
+                                                src:
+                                                  "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
+                                                alt: ""
+                                              }
+                                            })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "ml-4" }, [
+                                      _c("div", {
+                                        staticClass:
+                                          "text-sm leading-5 font-medium text-gray-900",
+                                        domProps: {
+                                          innerHTML: _vm._s(car.brand)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("div", {
+                                        staticClass:
+                                          "text-sm leading-5 text-gray-500",
+                                        domProps: {
+                                          innerHTML: _vm._s(car.model)
+                                        }
+                                      })
+                                    ])
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "px-6 py-4 whitespace-no-wrap border-b border-gray-200"
+                              },
+                              [
+                                _c("div", {
+                                  staticClass:
+                                    "text-sm leading-5 text-gray-900",
+                                  domProps: { innerHTML: _vm._s(car.model) }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm._m(3, true),
+                            _vm._v(" "),
+                            _c("td", {
+                              staticClass:
+                                "px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500"
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              staticClass:
+                                "px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium"
+                            })
+                          ])
+                        })
+                  ],
+                  2
+                )
+              ])
+            ]
+          )
+        ]
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("h1", { staticClass: "font-normal" }, [_vm._v("Cars")])
+    return _c("select", { staticClass: "border p-2 rounded" }, [
+      _c("option", [_vm._v("4 Passangers")]),
+      _vm._v(" "),
+      _c("option", [_vm._v("3 Passangers")]),
+      _vm._v(" "),
+      _c("option", [_vm._v("2 Passangers")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+          },
+          [
+            _vm._v(
+              "\n                                    Car\n                                "
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+          },
+          [
+            _vm._v(
+              "\n                                    Model\n                                "
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+          },
+          [
+            _vm._v(
+              "\n                                    Status\n                                "
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("th", {
+          staticClass: "px-6 py-3 border-b border-gray-200 bg-gray-50"
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "text-blue-500 opacity-75" }, [
+      _c("i", { staticClass: "fas fa-circle-notch fa-spin fa-2x" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "td",
+      { staticClass: "px-6 py-4 whitespace-no-wrap border-b border-gray-200" },
+      [
+        _c(
+          "span",
+          {
+            staticClass:
+              "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+          },
+          [_vm._v("Available")]
+        )
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -20331,14 +20870,141 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c("h2", { staticClass: "text-2xl text-gray-900" }, [
+      _vm._v("New Reservation")
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "mt-6 border-t border-gray-400 pt-4" }, [
+      _c("div", { staticClass: "flex flex-wrap -mx-3 mb-6" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "border border-gray-300 p-6 grid grid-cols-1 gap-6 bg-white shadow-lg rounded-lg"
+          },
+          [
+            _c("div", { staticClass: "flex flex-col md:flex-row" }),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "flex justify-center" }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "p-2 border w-1/4 rounded-md bg-gray-800 text-white",
+                  on: { click: _vm.load }
+                },
+                [_vm._v("Search")]
+              )
+            ])
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "flex flex-wrap -mx-1 lg:-mx-4" },
+      _vm._l(_vm.cars, function(car) {
+        return _c(
+          "div",
+          { staticClass: "my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" },
+          [
+            _c(
+              "article",
+              { staticClass: "overflow-hidden rounded-lg shadow-lg" },
+              [
+                _c("a", { attrs: { href: "#" } }, [
+                  car.image
+                    ? _c("img", {
+                        staticClass: "block h-auto w-full",
+                        attrs: { alt: "Placeholder", src: car.image }
+                      })
+                    : _c("img", {
+                        staticClass: "block h-auto w-full",
+                        attrs: {
+                          alt: "Placeholder",
+                          src:
+                            "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+                        }
+                      })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "header",
+                  {
+                    staticClass:
+                      "flex items-center justify-between leading-tight p-2 md:p-4"
+                  },
+                  [
+                    _c("h1", { staticClass: "text-lg" }, [
+                      _c("a", {
+                        staticClass: "no-underline hover:underline text-black",
+                        attrs: { href: "#" },
+                        domProps: {
+                          innerHTML: _vm._s(car.brand + " " + car.model)
+                        }
+                      })
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]
+        )
+      }),
+      0
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("h2", [_vm._v("NEW Reservation")])])
+    return _c("div", { staticClass: "grid grid-cols-1 md:grid-cols-2 gap-4" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "grid grid-cols-2 gap-2 border border-gray-200 p-2 rounded"
+        },
+        [
+          _c("div", { staticClass: "flex items-center p-2 " }, [
+            _c("span", [_vm._v(" Start Date: ")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex border rounded items-center p-2 " }, [
+            _c("input", {
+              staticClass: "max-w-full focus:outline-none text-gray-700",
+              attrs: { type: "text", placeholder: "Enter text here..." }
+            })
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "grid grid-cols-2 gap-2 border border-gray-200 p-2 rounded"
+        },
+        [
+          _c("div", { staticClass: "flex rounded items-center p-2 " }, [
+            _c("span", [_vm._v("Stop Date: ")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex border rounded items-center p-2 " }, [
+            _c("input", {
+              staticClass: "max-w-full focus:outline-none text-gray-700",
+              attrs: { type: "text", placeholder: "Enter text here..." }
+            })
+          ])
+        ]
+      )
+    ])
   }
 ]
 render._withStripped = true

@@ -1,8 +1,7 @@
 <template>
     <div>
-        <h1 class="font-normal">Auth</h1>
         <div v-if="!token">
-            <div class="bg-gray-200 rounded py-16 px-12 m-16 flex flex-col items-center justify-center">
+            <div class="rounded py-16 px-12 m-16 flex flex-col items-center justify-center">
                 <!-- User profile image -->
                 <img class="rounded-full h-32 w-32" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="user avatar" />
                 <div method="post" class="mt-8 mb-4">
@@ -15,8 +14,8 @@
                         <input class="border-solid border border-gray-400 rounded px-2 py-3" type="password"  v-model="formData.password" id="userPass" placeholder="Password" required />
                     </div>
                     <div class="my-4 flex items-center">
-                        <input class="h-4 w-4 mr-2" type="checkbox" id="userRemember" />
-                        <label for="userRemember">Remember me</label>
+<!--                        <input class="h-4 w-4 mr-2" type="checkbox" id="userRemember" />-->
+<!--                        <label for="userRemember">Remember me</label>-->
                     </div>
                     <button class="bg-gray-500 hover:bg-gray-600 text-white font-bold w-full py-3" type="button" @click="handleLogin">Sign in</button>
 
