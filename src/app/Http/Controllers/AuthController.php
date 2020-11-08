@@ -7,13 +7,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Class AuthController
+ * @package App\Http\Controllers
+ */
 class AuthController extends Controller
 {
-    //
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
-        if(Auth::attempt($request->only(['email','password'])))
+        /**
+         * stateless auth
+         */
+        if(Auth::once($request->only(['email','password'])))
         {
             $user = Auth::user();
 
@@ -27,6 +37,10 @@ class AuthController extends Controller
         ], 401);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request)
     {
         /* @var $user \App\Models\User */
