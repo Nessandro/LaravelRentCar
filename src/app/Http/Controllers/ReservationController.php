@@ -41,45 +41,43 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Reservation $reservation
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show($id)
+    public function show(Reservation $reservation)
     {
-        $reservation = Reservation::with('user', 'car')
-            ->where('id', $id)
-            ->get()
-            ->toArray();
+        $this->authorize('view', $reservation);
 
-        return response()->json(['reservation' => $reservation]);
+        return response()->json(['reservation' => $reservation->toArray()]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Reservation $reservation
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Reservation $reservation)
     {
         $input = $request->except(['user_id']);
-        $reservation = Reservation::where('id', $id)->update($input);
+        $this->authorize('update', $reservation);
+        $reservation->update($input);
 
         return response()->json(['reservation' => $reservation]);
     }
 
     /**
-     * @param $id
+     * @param Reservation $reservation
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function cancel($id)
+    public function cancel(Reservation $reservation)
     {
-        $reservation = Reservation::where('id', $id)->first();
-        if(!$reservation)
-        {
-            return response()->json(['message' => "The reservation with id {$id} not found."], 404);
-        }
+        $this->authorize('update', $reservation);
+
         $reservation->cancel();
 
         return response()->json(['reservation' => $reservation]);

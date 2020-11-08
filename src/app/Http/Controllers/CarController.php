@@ -16,7 +16,6 @@ class CarController extends Controller
     {
         //add filtering cars
         $cars = Car::all();
-        
         return response()->json(['cars' => $cars]);
     }
 
