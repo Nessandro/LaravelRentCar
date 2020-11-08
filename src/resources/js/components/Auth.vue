@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 class="font-normal">Auth</h1>
-        <div v-if="!authToken">
+        <div v-if="!token">
             <div class="bg-gray-200 rounded py-16 px-12 m-16 flex flex-col items-center justify-center">
                 <!-- User profile image -->
                 <img class="rounded-full h-32 w-32" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="user avatar" />
@@ -26,9 +26,9 @@
         </div>
         <div v-else>
             <div>User is Authenticated</div>
-            <div>Auth Token: <span v-html="authToken"></span></div>
+            <div>Auth Token: <span v-html="token"></span></div>
             <div>
-                <button class="bg-gray-500 hover:bg-gray-600 text-white font-bold w-6/12 py-3" type="button" @click="handleLogout" v-if="authToken">Logout</button>
+                <button class="bg-gray-500 hover:bg-gray-600 text-white font-bold w-6/12 py-3" type="button" @click="handleLogout" v-if="token">Logout</button>
             </div>
         </div>
     </div>
@@ -38,8 +38,6 @@
     export default{
         data(){
             return {
-                isAuthenticated: false,
-                authToken: null,
                 formData:{
                     email:      null,
                     password:   null,
@@ -47,37 +45,34 @@
 
             }
         },
+        computed:{
+          user: {
+              get(){
+                      return this.$store.getters.user;
+              }
+          },
+            token:{
+              get(){
+                  return !!this.user ? this.user.token : null;
+              }
+            }
+        },
         mounted(){
-            this.authToken = localStorage.getItem('token');
+            // this.authToken = localStorage.getItem('user');
             //todo: check if token is still valid
 
         },
         methods:{
             handleLogin(){
-                const self = this;
-                axios.post('api/login',  this.formData)
-                    .then(response => {
-                        if(response.data.token){
-                            self.authToken = response.data.token;
-                            axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-                            localStorage.setItem('token', response.data.token)
-                            self.$router.push({ name: 'reservations' });
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err.response.data);
-                    })
+                this.$store.dispatch('login', this.formData)
+                    .then(() => this.$router.push({name: 'reservations'}))
+                    .catch(err => console.log(err));
             },
             handleLogout(){
-                const self = this;
-                axios.post('api/logout',  this.formData)
-                    .then(response => {
-                        localStorage.removeItem('token', response.data.token)
-                        self.authToken = null;
-                    })
-                    .catch(err => {
-                        console.log(err.response.data);
-                    });
+                this.$store
+                    .dispatch('logout')
+                    .then(() => this.$router.push({name: 'login'}))
+                    .catch(err => console.log(err));
             }
         }
     };

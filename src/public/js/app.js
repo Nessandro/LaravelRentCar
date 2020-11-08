@@ -1947,40 +1947,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      isAuthenticated: false,
-      authToken: null,
       formData: {
         email: null,
         password: null
       }
     };
   },
-  mounted: function mounted() {
-    this.authToken = localStorage.getItem('token'); //todo: check if token is still valid
+  computed: {
+    user: {
+      get: function get() {
+        return this.$store.getters.user;
+      }
+    },
+    token: {
+      get: function get() {
+        return !!this.user ? this.user.token : null;
+      }
+    }
+  },
+  mounted: function mounted() {// this.authToken = localStorage.getItem('user');
+    //todo: check if token is still valid
   },
   methods: {
     handleLogin: function handleLogin() {
-      var self = this;
-      axios.post('api/login', this.formData).then(function (response) {
-        if (response.data.token) {
-          self.authToken = response.data.token;
-          axios.defaults.headers.common.Authorization = "Bearer ".concat(response.data.token);
-          localStorage.setItem('token', response.data.token);
-          self.$router.push({
-            name: 'reservations'
-          });
-        }
+      var _this = this;
+
+      this.$store.dispatch('login', this.formData).then(function () {
+        return _this.$router.push({
+          name: 'reservations'
+        });
       })["catch"](function (err) {
-        console.log(err.response.data);
+        return console.log(err);
       });
     },
     handleLogout: function handleLogout() {
-      var self = this;
-      axios.post('api/logout', this.formData).then(function (response) {
-        localStorage.removeItem('token', response.data.token);
-        self.authToken = null;
+      var _this2 = this;
+
+      this.$store.dispatch('logout').then(function () {
+        return _this2.$router.push({
+          name: 'login'
+        });
       })["catch"](function (err) {
-        console.log(err.response.data);
+        return console.log(err);
       });
     }
   }
@@ -19787,7 +19795,7 @@ var render = function() {
   return _c("div", [
     _c("h1", { staticClass: "font-normal" }, [_vm._v("Auth")]),
     _vm._v(" "),
-    !_vm.authToken
+    !_vm.token
       ? _c("div", [
           _c(
             "div",
@@ -19906,11 +19914,11 @@ var render = function() {
           _vm._v(" "),
           _c("div", [
             _vm._v("Auth Token: "),
-            _c("span", { domProps: { innerHTML: _vm._s(_vm.authToken) } })
+            _c("span", { domProps: { innerHTML: _vm._s(_vm.token) } })
           ]),
           _vm._v(" "),
           _c("div", [
-            _vm.authToken
+            _vm.token
               ? _c(
                   "button",
                   {
@@ -36703,19 +36711,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_bootstrap__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
 
+ // import Vuex from 'vuex';
 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 var app = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
   el: '#app',
-  router: _router__WEBPACK_IMPORTED_MODULE_4__["default"]
+  store: _store__WEBPACK_IMPORTED_MODULE_3__["default"],
+  router: _router__WEBPACK_IMPORTED_MODULE_4__["default"],
+  created: function created() {
+    this.loadStoredUser();
+    this.addAxiosInterceptor();
+  },
+  computed: {
+    user: {
+      get: function get() {
+        return this.$store.getters.user;
+      }
+    }
+  },
+  methods: {
+    loadStoredUser: function loadStoredUser() {
+      var userDetails = localStorage.getItem('user');
+
+      if (!userDetails) {
+        return;
+      }
+
+      this.$store.commit('setUserData', JSON.parse(userDetails));
+    },
+    addAxiosInterceptor: function addAxiosInterceptor() {
+      var _this = this;
+
+      axios.interceptors.response.use(function (response) {
+        return response;
+      }, function (error) {
+        if (_this.user && error.response.status === 401) {
+          _this.$store.dispatch('logout').then(function () {
+            return _this.$router.push({
+              name: 'login'
+            });
+          });
+        }
+
+        return Promise.reject(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -37112,7 +37160,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"](_routes__WEBPACK_IMPORTED_MODULE_1__["default"]);
 router.beforeEach(function (to, from, next) {
-  var loggedIn = localStorage.getItem('token');
+  var loggedIn = localStorage.getItem('user');
 
   if (to.matched.some(function (record) {
     return record.meta.auth;
@@ -37173,6 +37221,65 @@ __webpack_require__.r(__webpack_exports__);
     name: 'login'
   }]
 });
+
+/***/ }),
+
+/***/ "./resources/js/store.js":
+/*!*******************************!*\
+  !*** ./resources/js/store.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+
+
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
+  state: {
+    user: null
+  },
+  mutations: {
+    setUserData: function setUserData(state, user) {
+      state.user = user;
+      localStorage.setItem('user', JSON.stringify(user));
+      axios.defaults.headers.common['X-Authorization'] = "Bearer ".concat(user.token);
+    },
+    removeUserData: function removeUserData(state) {
+      state.user = null;
+      localStorage.removeItem('user');
+      axios.defaults.headers.common['X-Authorization'] = null;
+    }
+  },
+  actions: {
+    login: function login(_ref, credentials) {
+      var commit = _ref.commit;
+      return axios.post('/api/login', credentials).then(function (_ref2) {
+        var data = _ref2.data;
+        return commit('setUserData', data);
+      });
+    },
+    logout: function logout(_ref3) {
+      var commit = _ref3.commit;
+      return axios.post('/api/logout').then(function (_ref4) {
+        var data = _ref4.data;
+        commit('removeUserData');
+      });
+    }
+  },
+  getters: {
+    isLogged: function isLogged(state) {
+      return !!state.user;
+    },
+    user: function user(state) {
+      return state.user;
+    }
+  }
+}));
 
 /***/ }),
 

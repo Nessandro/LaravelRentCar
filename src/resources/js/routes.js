@@ -5,11 +5,12 @@ import Auth from './components/Auth'
 import NotFound from './components/NotFound'
 
 export default {
+
     mode: 'history',
 
     linkActiveClass: 'font-bold',
 
-    routes:[
+    routes: [
 
         {
             path: '*',

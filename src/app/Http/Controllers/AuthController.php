@@ -26,15 +26,10 @@ class AuthController extends Controller
         if(Auth::once($request->only(['email','password'])))
         {
             $user = Auth::user();
-
-            return response()->json([
-                'token' => $user->createToken('token')->plainTextToken
-            ]);
+            return response()->json(['token' => $user->createToken('token')->plainTextToken], 201);
         }
 
-        return response()->json([
-            'message' => 'You have to authorize first.'
-        ], 401);
+        return response()->json(['message' => 'You have to authorize first.'], 401);
     }
 
     /**
@@ -45,7 +40,10 @@ class AuthController extends Controller
     {
         /* @var $user \App\Models\User */
         $user = $request->user();
-        $user->tokens()->delete();
+        if($user)
+        {
+            $user->tokens()->delete();
+        }
 
         return response()->json([], 204);
     }
