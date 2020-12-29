@@ -22,16 +22,20 @@ Route::any('/login', [\App\Http\Controllers\AuthController::class, 'login'])->na
 Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 
-
 Route::group(['middleware' => 'auth:sanctum'], function() {
-
 
     /**
      * reservations
      */
-    Route::put('reservation/cancel/{id}', [\App\Http\Controllers\ReservationController::class, 'cancel']);
+    Route::put('reservation/cancel/{reservation}', [\App\Http\Controllers\ReservationController::class, 'cancel'])->name('reservation.cancel');
     Route::resource('reservation', \App\Http\Controllers\ReservationController::class)
-        ->except(['create', 'edit']);
+        ->except(['create', 'edit'])->names([
+            'index'     => 'reservation.index',
+            'store'     => 'reservation.store',
+            'show'      => 'reservation.show',
+            'update'    => 'reservation.update',
+            'delete'    => 'reservation.delete'
+        ]);
 
     /**
      * cars

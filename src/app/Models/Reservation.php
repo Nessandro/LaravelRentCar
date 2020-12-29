@@ -6,6 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Reservation
+ * @package App\Models
+ * @property $user User
+ */
 class Reservation extends Model
 {
     use HasFactory;

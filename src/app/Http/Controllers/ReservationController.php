@@ -31,8 +31,8 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->only(['user_id', 'car_id', 'start_date', 'finish_date']);
-        $reservation = new Reservation($input);
+        $reservation = new Reservation($request->only(['user_id', 'car_id', 'start_date', 'finish_date']));
+        $this->authorize('create', $reservation);
         $reservation->save();
 
         return response()->json(['reservation' => $reservation]);
@@ -62,9 +62,8 @@ class ReservationController extends Controller
      */
     public function update(Request $request, Reservation $reservation)
     {
-        $input = $request->except(['user_id']);
         $this->authorize('update', $reservation);
-        $reservation->update($input);
+        $reservation->update($request->except(['user_id']));
 
         return response()->json(['reservation' => $reservation]);
     }
@@ -77,25 +76,20 @@ class ReservationController extends Controller
     public function cancel(Reservation $reservation)
     {
         $this->authorize('update', $reservation);
-
         $reservation->cancel();
-
         return response()->json(['reservation' => $reservation]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Reservation $reservation
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Reservation $reservation)
     {
-        $reservation = Reservation::where('id', $id)->first();
-        if(!$reservation)
-        {
-            return response()->json(['message' => "The reservation with id {$id} not found."], 404);
-        }
+        $this->authorize('update', $reservation);
         $reservation->delete();
         return response()->json(['reservation' => ['deleted' => true]]);
     }

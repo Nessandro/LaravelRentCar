@@ -18,3 +18,4 @@ Route::get('/{page}', function () {
 })->where('page', '.*');
 
 
+ 

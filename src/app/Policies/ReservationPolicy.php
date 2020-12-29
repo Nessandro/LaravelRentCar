@@ -30,7 +30,8 @@ class ReservationPolicy
      */
     public function view(User $user, Reservation $reservation)
     {
-        return $user->id === $reservation->user_id;
+        //return $user->id === $reservation->user_id;
+        return $reservation->user()->is($user);
     }
 
     /**
@@ -41,7 +42,7 @@ class ReservationPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return !!$user;
     }
 
     /**
@@ -53,7 +54,8 @@ class ReservationPolicy
      */
     public function update(User $user, Reservation $reservation)
     {
-        return $user->id === $reservation->user_id;
+        //return $user->id === $reservation->user_id;
+        return $reservation->user()->is($user);
     }
 
     /**
